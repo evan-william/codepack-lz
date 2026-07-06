@@ -1,0 +1,46 @@
+{
+  "name": "codepack-lz",
+  "displayName": "CodePack-LZ",
+  "description": "Pack the current VS Code workspace into a compressed AI context envelope.",
+  "version": "0.1.0",
+  "publisher": "evan-william",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:codepack-lz.packWorkspace"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codepack-lz.packWorkspace",
+        "title": "CodePack-LZ: Pack Workspace to Clipboard"
+      }
+    ],
+    "configuration": {
+      "title": "CodePack-LZ",
+      "properties": {
+        "codepackLz.binaryPath": {
+          "type": "string",
+          "default": "codepack-lz",
+          "description": "Path to the CodePack-LZ CLI binary."
+        },
+        "codepackLz.maxFileSize": {
+          "type": "number",
+          "default": 1048576,
+          "description": "Maximum file size, in bytes, to include in a pack."
+        },
+        "codepackLz.pruneComments": {
+          "type": "boolean",
+          "default": false,
+          "description": "Strip common comments from supported text files before packing."
+        }
+      }
+    }
+  }
+}
