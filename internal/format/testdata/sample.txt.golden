@@ -1,0 +1,42 @@
+CodePack-LZ v0.3.0 - repository: demo
+files: 3 packed, 1 skipped - total: 140 B - ~27 tokens (est., heuristic)
+secret scan: redacted (1 file)
+warning: review for sensitive data before sharing; scanning cannot guarantee every secret is caught.
+
+FILE TREE
+---------
+demo/
+|-- src/
+|   |-- app.go
+|   `-- copy.go
+`-- README.md
+
+================================================================
+FILE: README.md (markdown - 28 B - ~9 tokens (est.))
+================================================================
+# Demo
+
+Unicode text works.
+
+================================================================
+FILE: src/app.go (go - 57 B - ~18 tokens (est.))
+================================================================
+package app
+
+func Add(a, b int) int {
+	return a + b
+}
+
+================================================================
+FILE: src/copy.go (go - 57 B)
+================================================================
+identical to src/app.go (content not repeated)
+
+SKIPPED
+-------
+big.bin - binary (4.0 KiB)
+
+REDACTIONS
+----------
+src/app.go - generic-api-key-quoted (1 matches)
+

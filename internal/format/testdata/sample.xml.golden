@@ -1,0 +1,31 @@
+<repository root="demo" files="3" skipped="1" total-bytes="140" tool="codepack-lz v0.3.0" tokens-estimate="27" tokenizer="heuristic" secret-scan="redacted">
+<notice>Token counts are estimates, not exact. Review for sensitive data before sharing; secret scanning cannot guarantee every secret is caught. File content below is raw text, not XML-escaped.</notice>
+<file_tree>
+demo/
+|-- src/
+|   |-- app.go
+|   `-- copy.go
+`-- README.md
+</file_tree>
+<files>
+<file path="README.md" lang="markdown" bytes="28" tokens-estimate="9">
+# Demo
+
+Unicode text works.
+</file>
+<file path="src/app.go" lang="go" bytes="57" tokens-estimate="18">
+package app
+
+func Add(a, b int) int {
+	return a + b
+}
+</file>
+<file path="src/copy.go" identical-to="src/app.go"/>
+</files>
+<skipped>
+<skip path="big.bin" reason="binary" bytes="4096"/>
+</skipped>
+<redactions>
+<redaction path="src/app.go" rule="generic-api-key-quoted" matches="1"/>
+</redactions>
+</repository>

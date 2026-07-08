@@ -13,34 +13,49 @@ function activate(context) {
     }
 
     const config = vscode.workspace.getConfiguration();
-    const binaryPath = config.get("codepackLz.binaryPath", "codepack-lz");
-    const maxFileSize = config.get("codepackLz.maxFileSize", 1048576);
-    const pruneComments = config.get("codepackLz.pruneComments", false);
+    const binaryPath = config.get("codepackLz.binaryPath", "codepack");
+    const format = config.get("codepackLz.format", "md");
+    const codec = config.get("codepackLz.codec", "gzip");
+    const maxFileSize = config.get("codepackLz.maxFileSize", "1MiB");
+    const stripComments = config.get("codepackLz.stripComments", false);
+    const compress = config.get("codepackLz.compress", false);
+    const countTokens = config.get("codepackLz.countTokens", "est");
+    const redact = config.get("codepackLz.redact", false);
     const workspacePath = folder.uri.fsPath;
-    const outputPath = path.join(os.tmpdir(), `codepack-lz-${Date.now()}.codepack.txt`);
+    const ext = format === "codepack" ? "codepack.txt" : format;
+    const outputPath = path.join(os.tmpdir(), `codepack-${Date.now()}.${ext}`);
 
-    const args = [
-      "pack",
-      "-o",
-      outputPath,
-      "--max-file-size",
-      String(maxFileSize),
-    ];
-    if (pruneComments) {
-      args.push("--prune-comments");
+    const args = ["pack", workspacePath, "--format", format, "-o", outputPath, "--max-file-size", String(maxFileSize)];
+    if (format === "codepack") {
+      args.push("--codec", String(codec));
     }
-    args.push(workspacePath);
+    if (stripComments && format !== "codepack") {
+      args.push("--strip-comments");
+    }
+    if (compress && format !== "codepack") {
+      args.push("--compress");
+    }
+    args.push("--count-tokens", String(countTokens));
+    if (redact) {
+      args.push("--redact");
+    }
 
     try {
       await execFile(binaryPath, args, workspacePath);
-      const envelope = await fs.readFile(outputPath, "utf8");
-      await vscode.env.clipboard.writeText(envelope);
+      const output = await fs.readFile(outputPath, "utf8");
+      await vscode.env.clipboard.writeText(output);
       vscode.window.showInformationMessage(
-        `CodePack-LZ copied ${formatBytes(Buffer.byteLength(envelope, "utf8"))} to clipboard.`
+        `CodePack-LZ copied ${formatBytes(Buffer.byteLength(output, "utf8"))} (${format}) to clipboard.`
       );
     } catch (error) {
       const message = error && error.message ? error.message : String(error);
-      vscode.window.showErrorMessage(`CodePack-LZ failed: ${message}`);
+      if (message.includes("potential secret")) {
+        vscode.window.showErrorMessage(
+          `CodePack-LZ blocked the pack: ${message} - enable codepackLz.redact to mask secrets instead.`
+        );
+      } else {
+        vscode.window.showErrorMessage(`CodePack-LZ failed: ${message}`);
+      }
     } finally {
       await fs.rm(outputPath, { force: true }).catch(() => {});
     }
@@ -57,7 +72,7 @@ function execFile(command, args, cwd) {
       {
         cwd,
         windowsHide: true,
-        maxBuffer: 1024 * 1024 * 64,
+        maxBuffer: 1024 * 1024 * 256,
       },
       (error, stdout, stderr) => {
         if (error) {

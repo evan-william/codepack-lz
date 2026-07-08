@@ -1,96 +1,178 @@
 # CodePack-LZ
 
-Zero-dependency, ultra-fast codebase context packer that compresses a repository into a single AI-ready Base64 envelope.
+**Pack a repository for LLMs from a single static binary -- no Node, no
+Python, no CGO.** Readable output with token estimates or exact Anthropic
+counts for pasting into Claude/ChatGPT, plus a lossless, hash-verified
+envelope for moving exact repo snapshots across any text channel.
 
-CodePack-LZ is a first prototype of a CLI and VS Code workflow for sending complete project context to LLMs without copying files one by one. It walks a directory, skips noisy build/dependency folders, stores text files with metadata, compresses the payload with gzip, and emits one portable `.codepack.txt` file that can be decoded locally.
+```
+codepack pack .                        # -> markdown context on stdout
+codepack pack . --format codepack --codec zstd -o snap.codepack.txt
+codepack unpack snap.codepack.txt      # -> byte-identical tree, every hash verified
+```
 
-> Prototype note: this version uses proven gzip/DEFLATE compression as the first LZ-family backend. Custom structural encoding, AST pruning, and model-native token codecs are planned after the file format stabilizes.
+## Why this instead of Repomix/Gitingest?
 
-## Why
+Those are excellent tools and they shaped this one. codepack-lz differs where
+it matters to CI, enterprise, air-gapped, and non-JS environments:
 
-Tools like Repomix and Gitingest make repositories easier to paste into AI chats, but they usually emit large raw text or XML-style bundles. CodePack-LZ explores a smaller envelope format for developer-to-agent context transfer: one command, one compressed file, reversible by design.
+|  | codepack-lz | Repomix | Gitingest |
+|---|---|---|---|
+| Install | **one static binary** (`go install` / download) | Node + npm | browser / pip |
+| Runtime deps | none, CGO-free, works offline | Node.js | Python/web |
+| Readable LLM output | md / xml / txt, token-labeled | yes (md/xml/plain) | yes (text) |
+| Token counts | local estimates or exact Anthropic counts | yes | yes |
+| Secret scan default | yes on, exit code 3 for CI | yes | no |
+| Lossless round-trip artifact | yes **hash-verified `pack -> unpack`** | no (output is one-way) | no |
+| Comment stripping | yes | yes | no |
+| Structural compression | yes (`--compress`, pure Go heuristic) | yes tree-sitter | no |
+| MCP server | yes (`codepack mcp`, stdio tools) | yes | no |
 
-## Features
+If you live happily in a Node toolchain, Repomix is excellent. If you want
+one dependency-light Go binary in CI, provable round-trips, secret scanning
+on by default, and honest token math -- this is the lane codepack-lz owns.
 
-- Packs a whole directory into one `.codepack.txt` envelope.
-- Skips common noise like `.git`, `node_modules`, build outputs, caches, and logs.
-- Detects binary files and oversized files to avoid bloated packs.
-- Preserves file paths, byte sizes, hashes, language hints, and full text content.
-- Unpacks the envelope back into a directory for verification or handoff.
-- Includes a VS Code extension prototype command that copies a workspace pack to clipboard.
+## Two modes, honestly separated
 
-## Install From Source
+**Readable (`--format md|xml|txt`)** -- for the LLM job. File tree, fenced
+contents, per-file and total token counts. The default `est` mode is marked
+`~ ... est.` because it is a local heuristic; `--count-tokens=api` asks
+Anthropic for exact counts for the configured model. Optional
+`--strip-comments` and `--compress` reduce tokens before rendering.
+
+**Envelope (`--format codepack`)** -- for the transport job. NDJSON ->
+gzip/zstd -> base64 with a plaintext header, restored by `unpack` with
+**every file verified against its stored SHA-256**. Survives clipboard, chat,
+email, DB columns. It is *not* LLM-readable. By default it is not encrypted;
+`--encrypt` adds AES-256-GCM using a key from `CODEPACK_KEY_HEX`.
+
+> gzip/zstd saves **bytes**, never **tokens**: a model reads unpacked text, which
+> costs the same tokens as the original. Token reduction comes from the
+> readable pipeline (`--strip-comments`, `--compress`), not from
+> compression. This tool refuses to pretend otherwise.
+
+## Install
 
 ```bash
-go install github.com/evan-william/codepack-lz/cmd/codepack-lz@latest
+go install github.com/evan-william/codepack-lz/cmd/codepack@latest
 ```
 
-During local development:
+Or build a static binary anywhere Go runs (no C toolchain needed):
 
 ```bash
-go build -o bin/codepack-lz.exe ./cmd/codepack-lz
+CGO_ENABLED=0 go build -o codepack ./cmd/codepack
 ```
 
-## CLI Usage
-
-Pack the current directory:
+## Usage
 
 ```bash
-codepack-lz pack . -o codepack-lz-output.codepack.txt
+codepack pack [path] [flags]     # pack a directory (default: ., stdout)
+codepack unpack <file> [--out DIR] [--dry-run]
+codepack stats <file>            # inspect without decoding the payload
+codepack mcp                     # stdio MCP server for agents
+codepack version
 ```
 
-Unpack a generated envelope:
+Common flags for `pack`:
+
+| Flag | Default | Notes |
+|---|---|---|
+| `--format` | `md` | `md`, `xml`, `txt`, `codepack` |
+| `-o, --output` | stdout | summary always goes to stderr |
+| `--include` / `--exclude` | -- | doublestar globs, repeatable; no-slash patterns match at any depth |
+| `--no-default-ignore` | off | disable the built-in noise list |
+| `--max-file-size` | `1MiB` | accepts `512KiB`, `2MB`, raw bytes |
+| `--strip-comments` | off | readable formats only |
+| `--compress` | off | structurally prune readable source files |
+| `--count-tokens` | `est` | `est`, `off`, or `api` (requires `ANTHROPIC_API_KEY`) |
+| `--codec` | `gzip` | envelope only: `gzip` or `zstd` |
+| `--split-output` | off | readable formats only; writes `.part001` files |
+| `--split-size` | `1MiB` | maximum bytes per split part |
+| `--encrypt` | off | envelope only; AES-256-GCM key from `CODEPACK_KEY_HEX` |
+| `--key-env` | `CODEPACK_KEY_HEX` | env var holding a 32-byte hex key |
+| `--redact` | off | mask detected secrets as `[REDACTED:<rule>]` |
+| `--no-secret-scan` | off | you own the consequences |
+| `--copy` | off | best-effort clipboard copy |
+
+Exact Anthropic counts:
 
 ```bash
-codepack-lz unpack codepack-lz-output.codepack.txt -o restored-project
+ANTHROPIC_API_KEY=... codepack pack . --count-tokens api --token-model claude-sonnet-4-20250514
 ```
 
-Inspect pack stats:
+Encrypted envelopes:
 
 ```bash
-codepack-lz stats codepack-lz-output.codepack.txt
+# 32 random bytes as 64 hex characters
+export CODEPACK_KEY_HEX=$(openssl rand -hex 32)
+codepack pack . --format codepack --codec zstd --encrypt -o snap.codepack.txt
+codepack unpack snap.codepack.txt --out restored
 ```
 
-Useful flags:
+A `.codepackignore` at the pack root adds project-specific rules (gitignore
+subset: `#` comments, trailing `/` for dirs, `!` negation with last-match
+wins, no-slash patterns match at any depth).
 
-```bash
-codepack-lz pack . --max-file-size 524288 --include-hidden --prune-comments
+### Exit codes
+
+`0` ok - `1` runtime error - `2` usage error - **`3` secrets detected and
+not redacted** -- gate CI on it:
+
+```yaml
+- run: codepack pack . --format md -o /dev/null   # fails the job on leaked credentials
 ```
 
-## VS Code Prototype
+## Security
 
-The `vscode-extension` folder contains a JavaScript-only extension prototype. It looks for a `codepack-lz` binary on your PATH, runs `codepack-lz pack <workspace>`, and copies the generated envelope to the clipboard.
+- **Secret scanning is on by default**: ~28 embedded rules (adapted from
+  gitleaks' MIT ruleset) + Shannon entropy + placeholder allowlist. Findings
+  print as `path:line rule (prev...)` -- never the secret itself. Suppress a
+  known fixture with a `codepack:allow` comment on that line.
+- **Base64 != encryption.** Plain envelopes are trivially decodable; the
+  header carries that warning verbatim. `--encrypt` encrypts the compressed
+  payload with AES-256-GCM, but scanning/review still matter. Details and
+  threat model: [docs/security.md](docs/security.md).
+- Unpack rejects path traversal, never overwrites, never follows symlinks.
 
-Command palette:
+## Performance
 
-```text
-CodePack-LZ: Pack Workspace to Clipboard
-```
+Honest numbers, not adjectives -- i7-8750H laptop (6C/12T), Windows 11,
+synthetic 2,000-file / 56 MB Go corpus, secret scan on:
 
-## Format
+| Operation | Time |
+|---|---|
+| `pack --format md --count-tokens off` | **0.49 s** |
+| `pack --format md` (with token estimates) | 2.3 s |
+| `pack --format codepack` (48 MB text -> 1.1 MB envelope) | 0.73 s |
+| `unpack` + verify all 2,000 hashes | 5.1 s (FS-bound) |
 
-The output file is intentionally simple:
+Reproduce: `go test -bench=BenchmarkBuild ./internal/pack/`, or generate the
+corpus with `scripts/gen-bench-corpus.sh` and time `codepack pack` yourself.
+Compression ratios are corpus-dependent; this repo packs at ~31%.
 
-```text
-CODEPACK-LZ v0.1
-encoding: gzip+base64
+## Format stability
 
----BEGIN CODEPACK-LZ---
-...
----END CODEPACK-LZ---
-```
+The envelope format is versioned and specified in
+[docs/format-spec.md](docs/format-spec.md). Determinism is part of the
+contract: same tree + same version => byte-identical output (pin `Created`
+with `SOURCE_DATE_EPOCH`). Packs from the unreleased prototype are detected
+and rejected with a clear message.
 
-The encoded payload is JSON compressed with gzip and encoded with Base64. Use `codepack-lz unpack` or `codepack-lz stats` to decode it safely.
+## Status
 
-## Roadmap
+Current prototype target: **v0.3.0**. Implemented: `--codec zstd`,
+`--split-output`, exact Anthropic count-tokens API mode, stdio MCP server,
+`--compress`, streaming envelope write path, and optional AES-256-GCM
+envelope encryption. Future work: stronger language-aware pruning backends,
+more MCP tools, signed release artifacts, and packaged VS Code marketplace
+distribution.
 
-- Streaming packer for very large repositories.
-- `.codepackignore` support.
-- Language-aware AST pruning.
-- Custom token dictionary for repeated syntax patterns.
-- Native VS Code extension packaging.
-- MCP server integration for agent workflows.
+## VS Code
+
+`vscode-extension/` ships a prototype command -- *CodePack-LZ: Pack Workspace
+to Clipboard* -- that shells out to the `codepack` binary on your PATH.
 
 ## License
 
-MIT
+MIT. Secret-detection rules adapted from
+[gitleaks](https://github.com/gitleaks/gitleaks) (MIT).

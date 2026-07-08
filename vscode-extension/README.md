@@ -1,25 +1,22 @@
-# CodePack-LZ VS Code Extension
+# CodePack-LZ -- VS Code extension (prototype)
 
-Prototype VS Code wrapper for the `codepack-lz` CLI.
+Thin wrapper around the `codepack` CLI: runs
+`codepack pack <workspace> --format <fmt> -o <tmp>` and copies the result to
+your clipboard.
 
-## Requirements
-
-Install or build the CLI first:
+Requires the `codepack` binary on your PATH (or set `codepackLz.binaryPath`):
 
 ```bash
-go install github.com/evan-william/codepack-lz/cmd/codepack-lz@latest
+go install github.com/evan-william/codepack-lz/cmd/codepack@latest
 ```
 
-Or configure `codepackLz.binaryPath` to point at a local build, such as:
+Command palette -> **CodePack-LZ: Pack Workspace to Clipboard**.
 
-```text
-bin/codepack-lz.exe
-```
+Settings: `codepackLz.format` (md/xml/txt/codepack), `codepackLz.codec`
+(gzip/zstd for envelopes), `codepackLz.maxFileSize`,
+`codepackLz.stripComments`, `codepackLz.compress`,
+`codepackLz.countTokens`, `codepackLz.redact`, `codepackLz.binaryPath`.
 
-## Command
-
-```text
-CodePack-LZ: Pack Workspace to Clipboard
-```
-
-The command packs the first open workspace folder, copies the generated envelope to your clipboard, and deletes the temporary output file.
+If the pack is blocked with a "potential secret" error, the CLI's secret
+scanner found something; review it, add a `codepack:allow` comment for
+intended fixtures, or enable `codepackLz.redact`.

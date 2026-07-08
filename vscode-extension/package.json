@@ -1,8 +1,8 @@
 {
   "name": "codepack-lz",
   "displayName": "CodePack-LZ",
-  "description": "Pack the current VS Code workspace into a compressed AI context envelope.",
-  "version": "0.1.0",
+  "description": "Pack the current VS Code workspace into LLM-ready context (or a lossless envelope) and copy it to the clipboard.",
+  "version": "0.3.0",
   "publisher": "evan-william",
   "license": "MIT",
   "engines": {
@@ -27,18 +27,46 @@
       "properties": {
         "codepackLz.binaryPath": {
           "type": "string",
-          "default": "codepack-lz",
-          "description": "Path to the CodePack-LZ CLI binary."
+          "default": "codepack",
+          "description": "Path to the codepack CLI binary."
+        },
+        "codepackLz.format": {
+          "type": "string",
+          "enum": ["md", "xml", "txt", "codepack"],
+          "default": "md",
+          "description": "Output format. md/xml/txt are LLM-readable; codepack is the lossless transport envelope."
+        },
+        "codepackLz.codec": {
+          "type": "string",
+          "enum": ["gzip", "zstd"],
+          "default": "gzip",
+          "description": "Envelope codec when format is codepack."
         },
         "codepackLz.maxFileSize": {
-          "type": "number",
-          "default": 1048576,
-          "description": "Maximum file size, in bytes, to include in a pack."
+          "type": "string",
+          "default": "1MiB",
+          "description": "Maximum file size to include (e.g. 512KiB, 2MB)."
         },
-        "codepackLz.pruneComments": {
+        "codepackLz.stripComments": {
           "type": "boolean",
           "default": false,
-          "description": "Strip common comments from supported text files before packing."
+          "description": "Strip comments before packing (readable formats only)."
+        },
+        "codepackLz.compress": {
+          "type": "boolean",
+          "default": false,
+          "description": "Structurally compress source before packing (readable formats only)."
+        },
+        "codepackLz.countTokens": {
+          "type": "string",
+          "enum": ["est", "off", "api"],
+          "default": "est",
+          "description": "Token counting mode. api uses Anthropic credentials from the environment."
+        },
+        "codepackLz.redact": {
+          "type": "boolean",
+          "default": false,
+          "description": "Replace detected secrets with [REDACTED:<rule>] instead of blocking the pack."
         }
       }
     }
