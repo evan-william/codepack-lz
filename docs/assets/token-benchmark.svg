@@ -1,0 +1,28 @@
+<svg width="1180" height="520" viewBox="0 0 1180 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">CodePack-LZ token benchmark</title>
+  <desc id="desc">Estimated input tokens for the CodePack-LZ repository with default readable output and compressed readable output.</desc>
+  <rect width="1180" height="520" rx="26" fill="#0B1020"/>
+  <text x="52" y="72" fill="#F8FAFC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="36" font-weight="800">Token cost is paid on readable text, not on zstd</text>
+  <text x="52" y="108" fill="#A7B0C0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18">Local run on this repo, 69 packed files, CodePack-LZ v0.3.0 heuristic token estimator.</text>
+
+  <line x1="128" y1="410" x2="1054" y2="410" stroke="#334155" stroke-width="2"/>
+  <line x1="128" y1="180" x2="128" y2="410" stroke="#334155" stroke-width="2"/>
+  <text x="76" y="414" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">0</text>
+  <text x="70" y="296" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">40k</text>
+  <text x="70" y="183" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">80k</text>
+  <line x1="128" y1="294" x2="1054" y2="294" stroke="#1E293B" stroke-width="1"/>
+  <line x1="128" y1="180" x2="1054" y2="180" stroke="#1E293B" stroke-width="1"/>
+
+  <rect x="236" y="188" width="250" height="222" rx="10" fill="#38BDF8"/>
+  <rect x="666" y="331" width="250" height="79" rx="10" fill="#22C55E"/>
+
+  <text x="238" y="160" fill="#E0F2FE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="800">~77,527</text>
+  <text x="676" y="304" fill="#DCFCE7" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="800">~27,452</text>
+  <text x="240" y="452" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="750">Readable Markdown</text>
+  <text x="678" y="452" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="750">--compress + --strip-comments</text>
+
+  <rect x="374" y="108" width="212" height="42" rx="21" fill="#12332A" stroke="#22C55E"/>
+  <text x="396" y="136" fill="#BBF7D0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16" font-weight="750">64.6% fewer tokens</text>
+
+  <text x="52" y="490" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">For dollar cost, multiply estimated input tokens by your provider's current input-token price. CodePack-LZ reports tokens so the math is visible.</text>
+</svg>

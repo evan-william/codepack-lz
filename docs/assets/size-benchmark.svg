@@ -1,0 +1,33 @@
+<svg width="1180" height="520" viewBox="0 0 1180 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">CodePack-LZ artifact size benchmark</title>
+  <desc id="desc">Artifact size comparison for the CodePack-LZ repository: raw packed bytes, readable markdown, compressed readable markdown, zstd payload, and text envelope.</desc>
+  <rect width="1180" height="520" rx="26" fill="#0B1020"/>
+  <text x="52" y="72" fill="#F8FAFC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="36" font-weight="800">Transport size and LLM cost are different budgets</text>
+  <text x="52" y="108" fill="#A7B0C0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18">Local run on this repo, 69 files. Smaller bytes do not automatically mean fewer input tokens.</text>
+
+  <line x1="118" y1="410" x2="1080" y2="410" stroke="#334155" stroke-width="2"/>
+  <line x1="118" y1="180" x2="118" y2="410" stroke="#334155" stroke-width="2"/>
+  <text x="72" y="414" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">0KB</text>
+  <text x="58" y="296" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">100KB</text>
+  <text x="58" y="183" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">200KB</text>
+  <line x1="118" y1="294" x2="1080" y2="294" stroke="#1E293B" stroke-width="1"/>
+  <line x1="118" y1="180" x2="1080" y2="180" stroke="#1E293B" stroke-width="1"/>
+
+  <rect x="170" y="181" width="128" height="229" rx="9" fill="#818CF8"/>
+  <rect x="350" y="171" width="128" height="239" rx="9" fill="#38BDF8"/>
+  <rect x="530" y="318" width="128" height="92" rx="9" fill="#22C55E"/>
+  <rect x="710" y="341" width="128" height="69" rx="9" fill="#F59E0B"/>
+  <rect x="890" y="316" width="128" height="94" rx="9" fill="#F472B6"/>
+
+  <text x="174" y="160" fill="#C7D2FE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="800">205.0KB</text>
+  <text x="354" y="150" fill="#E0F2FE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="800">213.2KB</text>
+  <text x="540" y="297" fill="#DCFCE7" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="800">82.5KB</text>
+  <text x="722" y="320" fill="#FEF3C7" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="800">62.1KB</text>
+  <text x="902" y="295" fill="#FCE7F3" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="800">84.3KB</text>
+
+  <text x="160" y="448" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="750">Raw packed</text>
+  <text x="346" y="448" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="750">Markdown</text>
+  <text x="506" y="448" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="750">Pruned Markdown</text>
+  <text x="708" y="448" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="750">zstd payload</text>
+  <text x="872" y="448" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="750">.codepack.txt</text>
+</svg>

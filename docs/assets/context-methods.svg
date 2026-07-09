@@ -1,0 +1,53 @@
+<svg width="1180" height="560" viewBox="0 0 1180 560" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Context sharing method comparison</title>
+  <desc id="desc">A qualitative comparison of common ways to give code context to AI systems.</desc>
+  <rect width="1180" height="560" rx="26" fill="#0B1020"/>
+  <text x="52" y="72" fill="#F8FAFC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="36" font-weight="800">How code context usually travels to AI</text>
+  <text x="52" y="108" fill="#A7B0C0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18">Qualitative scoring: more filled blocks means stronger for that property.</text>
+
+  <text x="348" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Chat-readable</text>
+  <text x="520" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Low tokens</text>
+  <text x="674" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Lossless</text>
+  <text x="818" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Safe by default</text>
+  <text x="1012" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Agent-ready</text>
+
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18">
+    <text x="58" y="210" fill="#F8FAFC" font-weight="750">Raw copy/paste</text>
+    <text x="58" y="282" fill="#F8FAFC" font-weight="750">Zip/base64 blob</text>
+    <text x="58" y="354" fill="#F8FAFC" font-weight="750">One-way repo digest</text>
+    <text x="58" y="426" fill="#F8FAFC" font-weight="750">CodePack readable</text>
+    <text x="58" y="498" fill="#F8FAFC" font-weight="750">CodePack capsule + MCP</text>
+  </g>
+
+  <g fill="#1E293B" stroke="#334155">
+    <rect x="328" y="184" width="116" height="32" rx="8"/><rect x="500" y="184" width="116" height="32" rx="8"/><rect x="658" y="184" width="116" height="32" rx="8"/><rect x="824" y="184" width="116" height="32" rx="8"/><rect x="1012" y="184" width="116" height="32" rx="8"/>
+    <rect x="328" y="256" width="116" height="32" rx="8"/><rect x="500" y="256" width="116" height="32" rx="8"/><rect x="658" y="256" width="116" height="32" rx="8"/><rect x="824" y="256" width="116" height="32" rx="8"/><rect x="1012" y="256" width="116" height="32" rx="8"/>
+    <rect x="328" y="328" width="116" height="32" rx="8"/><rect x="500" y="328" width="116" height="32" rx="8"/><rect x="658" y="328" width="116" height="32" rx="8"/><rect x="824" y="328" width="116" height="32" rx="8"/><rect x="1012" y="328" width="116" height="32" rx="8"/>
+    <rect x="328" y="400" width="116" height="32" rx="8"/><rect x="500" y="400" width="116" height="32" rx="8"/><rect x="658" y="400" width="116" height="32" rx="8"/><rect x="824" y="400" width="116" height="32" rx="8"/><rect x="1012" y="400" width="116" height="32" rx="8"/>
+    <rect x="328" y="472" width="116" height="32" rx="8"/><rect x="500" y="472" width="116" height="32" rx="8"/><rect x="658" y="472" width="116" height="32" rx="8"/><rect x="824" y="472" width="116" height="32" rx="8"/><rect x="1012" y="472" width="116" height="32" rx="8"/>
+  </g>
+
+  <g fill="#22C55E">
+    <rect x="336" y="191" width="96" height="18" rx="4"/>
+    <rect x="508" y="191" width="24" height="18" rx="4"/>
+    <rect x="832" y="191" width="24" height="18" rx="4"/>
+
+    <rect x="666" y="263" width="96" height="18" rx="4"/>
+    <rect x="1020" y="263" width="32" height="18" rx="4"/>
+
+    <rect x="336" y="335" width="80" height="18" rx="4"/>
+    <rect x="508" y="335" width="56" height="18" rx="4"/>
+    <rect x="832" y="335" width="48" height="18" rx="4"/>
+
+    <rect x="336" y="407" width="96" height="18" rx="4"/>
+    <rect x="508" y="407" width="88" height="18" rx="4"/>
+    <rect x="832" y="407" width="88" height="18" rx="4"/>
+    <rect x="1020" y="407" width="60" height="18" rx="4"/>
+
+    <rect x="336" y="479" width="28" height="18" rx="4"/>
+    <rect x="508" y="479" width="96" height="18" rx="4"/>
+    <rect x="666" y="479" width="96" height="18" rx="4"/>
+    <rect x="832" y="479" width="88" height="18" rx="4"/>
+    <rect x="1020" y="479" width="96" height="18" rx="4"/>
+  </g>
+</svg>

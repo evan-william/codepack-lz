@@ -1,0 +1,41 @@
+<svg width="1180" height="520" viewBox="0 0 1180 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">CodePack-LZ context modes</title>
+  <desc id="desc">A diagram showing the two CodePack-LZ output modes: readable context for normal LLM chats and lossless capsules for tool-aware agents.</desc>
+  <rect width="1180" height="520" rx="26" fill="#0B1020"/>
+  <text x="52" y="70" fill="#F8FAFC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="38" font-weight="800">One command, two honest outputs</text>
+  <text x="52" y="108" fill="#A7B0C0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18">Compression saves transport bytes. Readable context saves LLM tokens. CodePack-LZ keeps those jobs separate.</text>
+
+  <rect x="52" y="166" width="250" height="126" rx="18" fill="#121A2E" stroke="#334155"/>
+  <text x="78" y="210" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="750">Your repo</text>
+  <text x="78" y="242" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">files, tests, docs</text>
+  <text x="78" y="268" fill="#94A3B8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">ignore rules + secret gate</text>
+
+  <path d="M310 229H438" stroke="#64748B" stroke-width="3"/>
+  <path d="M426 216L442 229L426 242" stroke="#64748B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="456" y="154" width="270" height="150" rx="18" fill="#18213A" stroke="#475569"/>
+  <text x="486" y="198" fill="#F8FAFC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="750">codepack pack</text>
+  <text x="486" y="232" fill="#A7F3D0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">walk -> scan -> render</text>
+  <text x="486" y="260" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">deterministic, no runtime deps</text>
+
+  <path d="M734 188H882" stroke="#22C55E" stroke-width="3"/>
+  <path d="M870 175L886 188L870 201" stroke="#22C55E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M734 270H882" stroke="#38BDF8" stroke-width="3"/>
+  <path d="M870 257L886 270L870 283" stroke="#38BDF8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="902" y="116" width="226" height="144" rx="18" fill="#0F2A1E" stroke="#22C55E"/>
+  <text x="926" y="158" fill="#DCFCE7" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" font-weight="800">Readable context</text>
+  <text x="926" y="192" fill="#BBF7D0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">md / xml / txt</text>
+  <text x="926" y="218" fill="#BBF7D0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">Gemini, ChatGPT, Claude</text>
+  <text x="926" y="242" fill="#BBF7D0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">token-labeled, splittable</text>
+
+  <rect x="902" y="298" width="226" height="144" rx="18" fill="#08283A" stroke="#38BDF8"/>
+  <text x="926" y="340" fill="#E0F2FE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" font-weight="800">Lossless capsule</text>
+  <text x="926" y="374" fill="#BAE6FD" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">.codepack.txt</text>
+  <text x="926" y="400" fill="#BAE6FD" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">zstd/gzip + base64</text>
+  <text x="926" y="424" fill="#BAE6FD" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">unpack verifies every hash</text>
+
+  <rect x="52" y="356" width="730" height="84" rx="16" fill="#111827" stroke="#334155"/>
+  <text x="80" y="392" fill="#FDE68A" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="750">Important</text>
+  <text x="80" y="422" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">A capsule is not pasted directly into a normal chat. It becomes useful when an agent can decode, search, and read it through the CLI or MCP.</text>
+</svg>
