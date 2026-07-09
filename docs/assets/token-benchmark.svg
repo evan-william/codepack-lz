@@ -1,31 +1,26 @@
 <svg width="1180" height="520" viewBox="0 0 1180 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Readable token benchmark</title>
-  <desc id="desc">Estimated input tokens for normal readable output versus compressed readable output.</desc>
-  <rect width="1180" height="520" rx="24" fill="#0E1116"/>
-  <rect x="1" y="1" width="1178" height="518" rx="23" stroke="#242B36"/>
+  <desc id="desc">Monochrome bar chart comparing estimated tokens for default and compressed readable output.</desc>
+  <rect width="1180" height="520" fill="#FFFFFF"/>
+  <rect x="24" y="24" width="1132" height="472" rx="8" fill="#FFFFFF" stroke="#D1D5DB"/>
 
-  <text x="56" y="72" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="35" font-weight="750">Token cost is paid on readable text</text>
-  <text x="56" y="108" fill="#AAB4C3" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17">This repo, 75 packed files, CodePack-LZ v0.3.1 heuristic estimator.</text>
+  <text x="64" y="76" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">Estimated readable tokens</text>
+  <text x="64" y="108" fill="#4B5563" font-family="Arial, Helvetica, sans-serif" font-size="16">This repository, 75 packed files, CodePack-LZ v0.3.1 heuristic estimator.</text>
 
-  <line x1="150" y1="402" x2="1048" y2="402" stroke="#2E3848" stroke-width="2"/>
-  <line x1="150" y1="172" x2="150" y2="402" stroke="#2E3848" stroke-width="2"/>
-  <line x1="150" y1="287" x2="1048" y2="287" stroke="#202938"/>
-  <line x1="150" y1="172" x2="1048" y2="172" stroke="#202938"/>
+  <line x1="150" y1="400" x2="1060" y2="400" stroke="#9CA3AF"/>
+  <line x1="150" y1="170" x2="150" y2="400" stroke="#9CA3AF"/>
+  <line x1="150" y1="285" x2="1060" y2="285" stroke="#E5E7EB"/>
+  <line x1="150" y1="170" x2="1060" y2="170" stroke="#E5E7EB"/>
+  <text x="104" y="405" fill="#6B7280" font-family="Arial, Helvetica, sans-serif" font-size="13">0</text>
+  <text x="88" y="290" fill="#6B7280" font-family="Arial, Helvetica, sans-serif" font-size="13">45k</text>
+  <text x="88" y="175" fill="#6B7280" font-family="Arial, Helvetica, sans-serif" font-size="13">90k</text>
 
-  <text x="94" y="407" fill="#8D98A8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">0</text>
-  <text x="84" y="292" fill="#8D98A8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">45k</text>
-  <text x="84" y="177" fill="#8D98A8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">90k</text>
+  <rect x="286" y="181" width="230" height="219" fill="#111827"/>
+  <rect x="668" y="309" width="230" height="91" fill="#6B7280"/>
 
-  <rect x="286" y="181" width="230" height="221" rx="8" fill="#7F93B7"/>
-  <rect x="668" y="311" width="230" height="91" rx="8" fill="#8AD7C7"/>
-
-  <text x="292" y="155" fill="#D8DEE9" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="27" font-weight="750">~86,608</text>
-  <text x="676" y="286" fill="#D8EEE9" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="27" font-weight="750">~35,769</text>
-  <text x="270" y="444" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Readable Markdown</text>
-  <text x="642" y="444" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Compressed readable Markdown</text>
-
-  <rect x="474" y="124" width="232" height="40" rx="20" fill="#14231F" stroke="#2F756A"/>
-  <text x="503" y="151" fill="#CBE8E2" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">58.7% fewer estimated tokens</text>
-
-  <text x="56" y="488" fill="#8D98A8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">Multiply readable input tokens by your current model price. CodePack-LZ exposes the count instead of hiding the bill.</text>
+  <text x="286" y="156" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">86,608</text>
+  <text x="668" y="284" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">35,769</text>
+  <text x="254" y="438" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Readable Markdown</text>
+  <text x="620" y="438" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Compressed readable Markdown</text>
+  <text x="64" y="474" fill="#4B5563" font-family="Arial, Helvetica, sans-serif" font-size="14">Compression and pruning reduced estimated readable input tokens by 58.7% on this repo.</text>
 </svg>

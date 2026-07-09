@@ -1,40 +1,39 @@
 <svg width="1180" height="520" viewBox="0 0 1180 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Artifact size benchmark</title>
-  <desc id="desc">Artifact size comparison for readable output and the lossless codepack capsule.</desc>
-  <rect width="1180" height="520" rx="24" fill="#0E1116"/>
-  <rect x="1" y="1" width="1178" height="518" rx="23" stroke="#242B36"/>
+  <desc id="desc">Monochrome bar chart comparing artifact sizes for readable and capsule outputs.</desc>
+  <rect width="1180" height="520" fill="#FFFFFF"/>
+  <rect x="24" y="24" width="1132" height="472" rx="8" fill="#FFFFFF" stroke="#D1D5DB"/>
 
-  <text x="56" y="72" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="35" font-weight="750">Transport size and token cost are separate</text>
-  <text x="56" y="108" fill="#AAB4C3" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17">This repo, 75 files. Smaller bytes do not automatically mean fewer chat tokens.</text>
+  <text x="64" y="76" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">Artifact size comparison</text>
+  <text x="64" y="108" fill="#4B5563" font-family="Arial, Helvetica, sans-serif" font-size="16">This repository, 75 files. Smaller transport bytes are not the same thing as fewer chat tokens.</text>
 
-  <line x1="132" y1="402" x2="1080" y2="402" stroke="#2E3848" stroke-width="2"/>
-  <line x1="132" y1="172" x2="132" y2="402" stroke="#2E3848" stroke-width="2"/>
-  <line x1="132" y1="287" x2="1080" y2="287" stroke="#202938"/>
-  <line x1="132" y1="172" x2="1080" y2="172" stroke="#202938"/>
+  <line x1="132" y1="400" x2="1080" y2="400" stroke="#9CA3AF"/>
+  <line x1="132" y1="170" x2="132" y2="400" stroke="#9CA3AF"/>
+  <line x1="132" y1="285" x2="1080" y2="285" stroke="#E5E7EB"/>
+  <line x1="132" y1="170" x2="1080" y2="170" stroke="#E5E7EB"/>
+  <text x="78" y="405" fill="#6B7280" font-family="Arial, Helvetica, sans-serif" font-size="13">0 KB</text>
+  <text x="62" y="290" fill="#6B7280" font-family="Arial, Helvetica, sans-serif" font-size="13">120 KB</text>
+  <text x="62" y="175" fill="#6B7280" font-family="Arial, Helvetica, sans-serif" font-size="13">240 KB</text>
 
-  <text x="74" y="407" fill="#8D98A8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">0KB</text>
-  <text x="60" y="292" fill="#8D98A8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">120KB</text>
-  <text x="60" y="177" fill="#8D98A8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">240KB</text>
+  <rect x="178" y="183" width="118" height="217" fill="#111827"/>
+  <rect x="362" y="174" width="118" height="226" fill="#374151"/>
+  <rect x="546" y="301" width="118" height="99" fill="#6B7280"/>
+  <rect x="730" y="335" width="118" height="65" fill="#9CA3AF"/>
+  <rect x="914" y="312" width="118" height="88" fill="#4B5563"/>
 
-  <rect x="178" y="185" width="118" height="217" rx="8" fill="#465469"/>
-  <rect x="362" y="176" width="118" height="226" rx="8" fill="#7F93B7"/>
-  <rect x="546" y="303" width="118" height="99" rx="8" fill="#8AD7C7"/>
-  <rect x="730" y="337" width="118" height="65" rx="8" fill="#B3A580"/>
-  <rect x="914" y="314" width="118" height="88" rx="8" fill="#8794A8"/>
-
-  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="750">
-    <text x="174" y="162" fill="#C9D1DE">227.1KB</text>
-    <text x="358" y="153" fill="#D8DEE9">236.1KB</text>
-    <text x="550" y="281" fill="#D8EEE9">103.6KB</text>
-    <text x="734" y="315" fill="#E8E1CB">67.6KB</text>
-    <text x="918" y="292" fill="#D8DEE9">91.7KB</text>
+  <g fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">
+    <text x="172" y="158">227.1 KB</text>
+    <text x="356" y="149">236.1 KB</text>
+    <text x="544" y="278">103.6 KB</text>
+    <text x="732" y="312">67.6 KB</text>
+    <text x="916" y="289">91.7 KB</text>
   </g>
 
-  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#F4F7FB">
-    <text x="162" y="442">Raw packed</text>
-    <text x="346" y="442">Markdown</text>
-    <text x="520" y="442">Pruned Markdown</text>
-    <text x="716" y="442">zstd payload</text>
-    <text x="890" y="442">.codepack.txt</text>
+  <g fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">
+    <text x="160" y="438">Raw packed</text>
+    <text x="344" y="438">Markdown</text>
+    <text x="520" y="438">Pruned Markdown</text>
+    <text x="714" y="438">zstd payload</text>
+    <text x="886" y="438">.codepack.txt</text>
   </g>
 </svg>

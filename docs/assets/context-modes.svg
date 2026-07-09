@@ -1,44 +1,41 @@
 <svg width="1180" height="560" viewBox="0 0 1180 560" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">CodePack-LZ context modes</title>
-  <desc id="desc">Diagram showing readable context for normal chats and lossless capsules for tool-aware agents.</desc>
-  <rect width="1180" height="560" rx="24" fill="#0E1116"/>
-  <rect x="1" y="1" width="1178" height="558" rx="23" stroke="#242B36"/>
+  <desc id="desc">A simple technical diagram showing readable output and lossless capsule output.</desc>
+  <rect width="1180" height="560" fill="#FFFFFF"/>
+  <rect x="24" y="24" width="1132" height="512" rx="8" fill="#FFFFFF" stroke="#D1D5DB"/>
 
-  <text x="56" y="70" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="38" font-weight="750">One command, two honest outputs</text>
-  <text x="56" y="106" fill="#AAB4C3" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17">Readable context is for chat models. Lossless capsules are for restore, CI, and tool-aware agents.</text>
+  <text x="64" y="76" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">One command, two outputs</text>
+  <text x="64" y="108" fill="#4B5563" font-family="Arial, Helvetica, sans-serif" font-size="16">Use readable files for chat. Use capsules for exact restore and tool workflows.</text>
 
-  <rect x="56" y="164" width="246" height="124" rx="14" fill="#121821" stroke="#2E3848"/>
-  <text x="82" y="204" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Repository</text>
-  <text x="82" y="235" fill="#B7C0CF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">source, tests, docs</text>
-  <text x="82" y="260" fill="#B7C0CF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">ignore rules + secret gate</text>
+  <rect x="64" y="170" width="240" height="108" rx="6" fill="#F9FAFB" stroke="#D1D5DB"/>
+  <text x="88" y="207" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700">Repository</text>
+  <text x="88" y="236" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">source, tests, docs</text>
+  <text x="88" y="259" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">ignore rules and secret scan</text>
 
-  <path d="M322 226H392" stroke="#6B7688" stroke-width="2"/>
-  <path d="M382 216L394 226L382 236" stroke="#6B7688" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="330" y1="224" x2="416" y2="224" stroke="#6B7280" stroke-width="1.6"/>
+  <path d="M406 214L418 224L406 234" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <rect x="414" y="150" width="270" height="152" rx="14" fill="#151D2A" stroke="#3A4658"/>
-  <text x="442" y="194" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">codepack pack</text>
-  <text x="442" y="226" fill="#C7D0DD" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">walk -> scan -> render</text>
-  <text x="442" y="251" fill="#8AD7C7" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">static binary, deterministic output</text>
+  <rect x="444" y="154" width="278" height="140" rx="6" fill="#F9FAFB" stroke="#D1D5DB"/>
+  <text x="468" y="194" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700">codepack pack</text>
+  <text x="468" y="226" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">walk -> scan -> render</text>
+  <text x="468" y="250" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">deterministic output from one binary</text>
 
-  <path d="M706 198H760" stroke="#8AD7C7" stroke-width="2"/>
-  <path d="M750 188L762 198L750 208" stroke="#8AD7C7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M706 262H760" stroke="#7F93B7" stroke-width="2"/>
-  <path d="M750 252L762 262L750 272" stroke="#7F93B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="748" y1="194" x2="822" y2="194" stroke="#6B7280" stroke-width="1.6"/>
+  <path d="M812 184L824 194L812 204" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="748" y1="254" x2="822" y2="254" stroke="#6B7280" stroke-width="1.6"/>
+  <path d="M812 244L824 254L812 264" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <rect x="782" y="128" width="342" height="124" rx="14" fill="#101B1B" stroke="#2F756A"/>
-  <rect x="782" y="128" width="5" height="124" rx="2.5" fill="#8AD7C7"/>
-  <text x="812" y="168" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="21" font-weight="700">Readable context</text>
-  <text x="812" y="199" fill="#C9D6D3" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">md / xml / txt for Gemini, ChatGPT, Claude</text>
-  <text x="812" y="224" fill="#C9D6D3" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">token-labeled, redacted, splittable</text>
+  <rect x="852" y="128" width="264" height="110" rx="6" fill="#F9FAFB" stroke="#D1D5DB"/>
+  <text x="876" y="164" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Readable context</text>
+  <text x="876" y="193" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">md / xml / txt for normal chats</text>
+  <text x="876" y="216" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">token-labeled and splittable</text>
 
-  <rect x="782" y="280" width="342" height="124" rx="14" fill="#111722" stroke="#38475D"/>
-  <rect x="782" y="280" width="5" height="124" rx="2.5" fill="#7F93B7"/>
-  <text x="812" y="320" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="21" font-weight="700">Lossless capsule</text>
-  <text x="812" y="351" fill="#C5CEDC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">.codepack.txt for tools and archive</text>
-  <text x="812" y="376" fill="#C5CEDC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">zstd/gzip + base64, hash-verified restore</text>
+  <rect x="852" y="272" width="264" height="110" rx="6" fill="#F9FAFB" stroke="#D1D5DB"/>
+  <text x="876" y="308" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Lossless capsule</text>
+  <text x="876" y="337" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">.codepack.txt for tools</text>
+  <text x="876" y="360" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">compressed, restorable, verified</text>
 
-  <rect x="56" y="418" width="1068" height="88" rx="14" fill="#141923" stroke="#303A49"/>
-  <text x="82" y="454" fill="#EBD99C" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Important</text>
-  <text x="82" y="482" fill="#C7D0DD" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">A capsule is not pasted directly into a normal chat. It becomes useful when an agent can decode, search,</text>
-  <text x="82" y="505" fill="#C7D0DD" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15">read, or unpack it through the CodePack-LZ CLI or MCP server.</text>
+  <rect x="64" y="422" width="1052" height="70" rx="6" fill="#F9FAFB" stroke="#D1D5DB"/>
+  <text x="88" y="451" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Note</text>
+  <text x="88" y="475" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="14">A capsule is not meant to be pasted into a normal chat. It is useful when a tool can decode, search, read, or unpack it.</text>
 </svg>
