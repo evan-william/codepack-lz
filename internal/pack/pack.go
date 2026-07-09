@@ -85,10 +85,9 @@ func Build(root string, opts Options) (*model.Pack, error) {
 	}
 
 	for i, entry := range res.Entries {
-		i, entry := i, entry
 		sem <- struct{}{}
 		wg.Add(1)
-		go func() {
+		go func(i int, entry walk.Entry) {
 			defer wg.Done()
 			defer func() { <-sem }()
 
@@ -142,7 +141,7 @@ func Build(root string, opts Options) (*model.Pack, error) {
 			}
 			o.file = f
 			outcomes[i] = o
-		}()
+		}(i, entry)
 	}
 	wg.Wait()
 	if firstErr != nil {

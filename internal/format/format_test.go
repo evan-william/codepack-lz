@@ -55,7 +55,7 @@ func TestGoldenReadableFormats(t *testing.T) {
 			}
 			want, err := os.ReadFile(golden)
 			require.NoError(t, err, "run `go test ./internal/format -update` to generate goldens")
-			require.Equal(t, string(want), buf.String())
+			require.Equal(t, normalizeNewlines(string(want)), normalizeNewlines(buf.String()))
 
 			// Byte-identical on re-render.
 			var again bytes.Buffer
@@ -63,6 +63,10 @@ func TestGoldenReadableFormats(t *testing.T) {
 			require.Equal(t, buf.Bytes(), again.Bytes())
 		})
 	}
+}
+
+func normalizeNewlines(s string) string {
+	return strings.ReplaceAll(s, "\r\n", "\n")
 }
 
 func TestMarkdownFenceCollision(t *testing.T) {

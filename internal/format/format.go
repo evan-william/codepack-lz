@@ -34,6 +34,11 @@ type Renderer interface {
 	Render(w io.Writer, p *model.Pack) error
 }
 
+func writef(w io.Writer, format string, args ...any) error {
+	_, err := fmt.Fprintf(w, format, args...)
+	return err
+}
+
 // New returns the renderer for kind.
 func New(kind string) (Renderer, error) {
 	switch kind {

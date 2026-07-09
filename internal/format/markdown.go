@@ -2,7 +2,6 @@ package format
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"strings"
 
@@ -17,62 +16,106 @@ type markdown struct{}
 func (markdown) Render(w io.Writer, p *model.Pack) error {
 	bw := bufio.NewWriter(w)
 
-	fmt.Fprintf(bw, "# Repository: %s\n\n", p.Root)
-	fmt.Fprintf(bw, "- Files: %d packed, %d skipped\n", len(p.Files), len(p.Skips))
-	fmt.Fprintf(bw, "- Total size: %s\n", humanBytes(p.TotalBytes))
-	if ts := tokenSummary(p); ts != "" {
-		fmt.Fprintf(bw, "- Tokens: %s\n", ts)
+	if err := writef(bw, "# Repository: %s\n\n", p.Root); err != nil {
+		return err
 	}
-	fmt.Fprintf(bw, "- Secret scan: %s\n", secretScanLabel(p))
-	fmt.Fprintf(bw, "- Packed by: codepack-lz v%s\n\n", version.Version)
-	fmt.Fprintf(bw, "> **Warning:** Review this output for sensitive data before sharing. Secret scanning reduces risk but cannot guarantee every secret is caught.\n\n")
+	if err := writef(bw, "- Files: %d packed, %d skipped\n", len(p.Files), len(p.Skips)); err != nil {
+		return err
+	}
+	if err := writef(bw, "- Total size: %s\n", humanBytes(p.TotalBytes)); err != nil {
+		return err
+	}
+	if ts := tokenSummary(p); ts != "" {
+		if err := writef(bw, "- Tokens: %s\n", ts); err != nil {
+			return err
+		}
+	}
+	if err := writef(bw, "- Secret scan: %s\n", secretScanLabel(p)); err != nil {
+		return err
+	}
+	if err := writef(bw, "- Packed by: codepack-lz v%s\n\n", version.Version); err != nil {
+		return err
+	}
+	if err := writef(bw, "> **Warning:** Review this output for sensitive data before sharing. Secret scanning reduces risk but cannot guarantee every secret is caught.\n\n"); err != nil {
+		return err
+	}
 
 	paths := make([]string, len(p.Files))
 	for i := range p.Files {
 		paths[i] = p.Files[i].Path
 	}
-	fmt.Fprintf(bw, "## File tree\n\n```\n%s```\n\n", renderTree(p.Root, paths))
+	if err := writef(bw, "## File tree\n\n```\n%s```\n\n", renderTree(p.Root, paths)); err != nil {
+		return err
+	}
 
-	fmt.Fprintf(bw, "## Files\n\n")
+	if err := writef(bw, "## Files\n\n"); err != nil {
+		return err
+	}
 	for i := range p.Files {
 		f := &p.Files[i]
-		fmt.Fprintf(bw, "### %s\n\n", f.Path)
+		if err := writef(bw, "### %s\n\n", f.Path); err != nil {
+			return err
+		}
 		if f.DupOf != "" {
-			fmt.Fprintf(bw, "Identical to `%s` (content not repeated).\n\n", f.DupOf)
+			if err := writef(bw, "Identical to `%s` (content not repeated).\n\n", f.DupOf); err != nil {
+				return err
+			}
 			continue
 		}
 		meta := []string{f.Lang, humanBytes(f.Size)}
 		if ft := fileTokens(p, f); ft != "" {
 			meta = append(meta, ft)
 		}
-		fmt.Fprintf(bw, "`%s`\n\n", strings.Join(nonEmpty(meta), " - "))
-		fence := codeFence(f.Content)
-		fmt.Fprintf(bw, "%s%s\n", fence, f.Lang)
-		bw.Write(f.Content)
-		if len(f.Content) > 0 && f.Content[len(f.Content)-1] != '\n' {
-			bw.WriteByte('\n')
+		if err := writef(bw, "`%s`\n\n", strings.Join(nonEmpty(meta), " - ")); err != nil {
+			return err
 		}
-		fmt.Fprintf(bw, "%s\n\n", fence)
+		fence := codeFence(f.Content)
+		if err := writef(bw, "%s%s\n", fence, f.Lang); err != nil {
+			return err
+		}
+		if _, err := bw.Write(f.Content); err != nil {
+			return err
+		}
+		if len(f.Content) > 0 && f.Content[len(f.Content)-1] != '\n' {
+			if err := bw.WriteByte('\n'); err != nil {
+				return err
+			}
+		}
+		if err := writef(bw, "%s\n\n", fence); err != nil {
+			return err
+		}
 	}
 
 	if len(p.Skips) > 0 {
-		fmt.Fprintf(bw, "## Skipped\n\n| Path | Reason | Size |\n|---|---|---|\n")
+		if err := writef(bw, "## Skipped\n\n| Path | Reason | Size |\n|---|---|---|\n"); err != nil {
+			return err
+		}
 		for _, s := range p.Skips {
 			size := ""
 			if s.Size > 0 {
 				size = humanBytes(s.Size)
 			}
-			fmt.Fprintf(bw, "| %s | %s | %s |\n", escapePipes(s.Path), s.Reason, size)
+			if err := writef(bw, "| %s | %s | %s |\n", escapePipes(s.Path), s.Reason, size); err != nil {
+				return err
+			}
 		}
-		bw.WriteByte('\n')
+		if err := bw.WriteByte('\n'); err != nil {
+			return err
+		}
 	}
 
 	if len(p.Redactions) > 0 {
-		fmt.Fprintf(bw, "## Redactions\n\n| Path | Rule | Matches |\n|---|---|---|\n")
-		for _, r := range p.Redactions {
-			fmt.Fprintf(bw, "| %s | %s | %d |\n", escapePipes(r.Path), r.Rule, r.Count)
+		if err := writef(bw, "## Redactions\n\n| Path | Rule | Matches |\n|---|---|---|\n"); err != nil {
+			return err
 		}
-		bw.WriteByte('\n')
+		for _, r := range p.Redactions {
+			if err := writef(bw, "| %s | %s | %d |\n", escapePipes(r.Path), r.Rule, r.Count); err != nil {
+				return err
+			}
+		}
+		if err := bw.WriteByte('\n'); err != nil {
+			return err
+		}
 	}
 
 	return bw.Flush()

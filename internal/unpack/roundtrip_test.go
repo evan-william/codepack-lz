@@ -27,7 +27,7 @@ func trickyTree(t *testing.T) string {
 		"crlf.txt":            []byte("one\r\ntwo\r\n"),
 		"empty.txt":           {},
 		"no-trailing-newline": []byte("abc"),
-		"unicode/日本語.md":      []byte("# héllo ☃ ünïcode\n"),
+		"unicode/content.md":  []byte("# héllo ☃ ünïcode\n"),
 		"deep/a/b/c/d.txt":    []byte("nested\n"),
 		"fences.md":           []byte("```go\ncode\n```\n"),
 		"dup/first.txt":       []byte("same bytes\n"),

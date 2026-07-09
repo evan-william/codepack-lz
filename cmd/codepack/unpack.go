@@ -29,7 +29,7 @@ files. Without --out, the tree is restored into ./<root-name-from-pack>.`,
 			if err != nil {
 				return err
 			}
-			defer in.Close()
+			defer func() { _ = in.Close() }()
 
 			h, err := unpack.ReadHeader(bufio.NewReader(in))
 			if err != nil {
@@ -63,10 +63,10 @@ files. Without --out, the tree is restored into ./<root-name-from-pack>.`,
 			w := cmd.ErrOrStderr()
 			abs, _ := filepath.Abs(target)
 			if dryRun {
-				fmt.Fprintf(w, "dry run: %d files (%d bytes) verified ok; nothing written (target would be %s)\n", sum.Files, sum.Bytes, abs)
+				warnf(w, "dry run: %d files (%d bytes) verified ok; nothing written (target would be %s)\n", sum.Files, sum.Bytes, abs)
 				return nil
 			}
-			fmt.Fprintf(w, "unpacked %d files (%d bytes) into %s; all %d hashes verified\n", sum.Files, sum.Bytes, abs, sum.Verified)
+			warnf(w, "unpacked %d files (%d bytes) into %s; all %d hashes verified\n", sum.Files, sum.Bytes, abs, sum.Verified)
 			return nil
 		},
 	}

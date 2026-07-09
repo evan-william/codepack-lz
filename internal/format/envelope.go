@@ -143,8 +143,8 @@ func (e *Envelope) Render(w io.Writer, p *model.Pack) error {
 	if err != nil {
 		return err
 	}
-	defer os.Remove(payload.Name())
-	defer payload.Close()
+	defer func() { _ = os.Remove(payload.Name()) }()
+	defer func() { _ = payload.Close() }()
 
 	cw := &countingWriter{w: payload}
 	zw, err := e.compressor(cw)
@@ -180,41 +180,68 @@ func (e *Envelope) Render(w io.Writer, p *model.Pack) error {
 	}
 
 	// Plaintext header -- readable (and greppable) without decoding.
-	fmt.Fprintf(w, "%s\n", MagicLine)
-	fmt.Fprintf(w, "Format-Version: %d\n", version.FormatVersion)
-	fmt.Fprintf(w, "Tool-Version: %s\n", version.Version)
-	fmt.Fprintf(w, "Encoding: base64\n")
-	fmt.Fprintf(w, "Codec: %s\n", e.Codec)
-	fmt.Fprintf(w, "Encryption: %s\n", e.Encryption)
-	if nonce != "" {
-		fmt.Fprintf(w, "Nonce: %s\n", nonce)
+	writef := func(format string, args ...any) error {
+		_, err := fmt.Fprintf(w, format, args...)
+		return err
 	}
-	fmt.Fprintf(w, "Created: %s\n", e.now().UTC().Format(time.RFC3339))
-	fmt.Fprintf(w, "Root: %s\n", p.Root)
-	fmt.Fprintf(w, "Files: %d\n", len(p.Files))
-	fmt.Fprintf(w, "Skipped: %d\n", len(p.Skips))
-	fmt.Fprintf(w, "Bytes-Raw: %d\n", p.TotalBytes)
-	fmt.Fprintf(w, "Bytes-Packed: %d\n", bytesPacked)
-	fmt.Fprintf(w, "Hash-Algo: sha256\n")
-	fmt.Fprintf(w, "Secret-Scan: %s\n", p.SecretScan)
-	fmt.Fprintf(w, "Warning: %s\n", e.warning())
-	fmt.Fprintf(w, "\n%s\n", BeginMarker)
+	if err := writef("%s\n", MagicLine); err != nil {
+		return err
+	}
+	if err := writef("Format-Version: %d\n", version.FormatVersion); err != nil {
+		return err
+	}
+	if err := writef("Tool-Version: %s\n", version.Version); err != nil {
+		return err
+	}
+	if err := writef("Encoding: base64\n"); err != nil {
+		return err
+	}
+	if err := writef("Codec: %s\n", e.Codec); err != nil {
+		return err
+	}
+	if err := writef("Encryption: %s\n", e.Encryption); err != nil {
+		return err
+	}
+	if nonce != "" {
+		if err := writef("Nonce: %s\n", nonce); err != nil {
+			return err
+		}
+	}
+	if err := writef("Created: %s\n", e.now().UTC().Format(time.RFC3339)); err != nil {
+		return err
+	}
+	if err := writef("Root: %s\n", p.Root); err != nil {
+		return err
+	}
+	if err := writef("Files: %d\n", len(p.Files)); err != nil {
+		return err
+	}
+	if err := writef("Skipped: %d\n", len(p.Skips)); err != nil {
+		return err
+	}
+	if err := writef("Bytes-Raw: %d\n", p.TotalBytes); err != nil {
+		return err
+	}
+	if err := writef("Bytes-Packed: %d\n", bytesPacked); err != nil {
+		return err
+	}
+	if err := writef("Hash-Algo: sha256\n"); err != nil {
+		return err
+	}
+	if err := writef("Secret-Scan: %s\n", p.SecretScan); err != nil {
+		return err
+	}
+	if err := writef("Warning: %s\n", e.warning()); err != nil {
+		return err
+	}
+	if err := writef("\n%s\n", BeginMarker); err != nil {
+		return err
+	}
 
 	if err := writeBase64WrappedReader(w, payloadReader); err != nil {
 		return err
 	}
-	_, err = fmt.Fprintf(w, "%s\n", EndMarker)
-	return err
-}
-
-// encodePayload builds the NDJSON payload: manifest first, then files in
-// their already-sorted order.
-func (e *Envelope) encodePayload(p *model.Pack) ([]byte, error) {
-	var buf bytes.Buffer
-	if err := e.encodePayloadTo(&buf, p); err != nil {
-		return nil, err
-	}
-	return buf.Bytes(), nil
+	return writef("%s\n", EndMarker)
 }
 
 // encodePayloadTo streams the NDJSON payload: manifest first, then files in

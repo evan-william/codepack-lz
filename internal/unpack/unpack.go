@@ -182,7 +182,7 @@ func RestoreWithOptions(r io.Reader, outDir string, opts RestoreOptions) (*Summa
 	if err != nil {
 		return nil, fmt.Errorf("open payload: %w", err)
 	}
-	defer zr.Close()
+	defer func() { _ = zr.Close() }()
 
 	dec := json.NewDecoder(zr)
 
@@ -295,7 +295,7 @@ func RestoreWithOptions(r io.Reader, outDir string, opts RestoreOptions) (*Summa
 
 func openPayload(br *bufio.Reader, h *Header, key []byte) (io.ReadCloser, error) {
 	payload := base64.NewDecoder(base64.StdEncoding, &payloadReader{br: br})
-	var compressed io.Reader = payload
+	compressed := payload
 	if h.Encryption == format.EncryptionAES256GCM {
 		if len(key) != 32 {
 			return nil, fmt.Errorf("AES-256-GCM envelope requires a 32-byte key")

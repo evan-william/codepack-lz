@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"slices"
@@ -126,34 +127,38 @@ func runPack(cmd *cobra.Command, root string, f *packFlags) error {
 
 	if f.copyOut {
 		if err := copyToClipboard(buf.Bytes()); err != nil {
-			fmt.Fprintf(cmd.ErrOrStderr(), "warning: clipboard copy failed: %v\n", err)
+			warnf(cmd.ErrOrStderr(), "warning: clipboard copy failed: %v\n", err)
 		} else {
-			fmt.Fprintf(cmd.ErrOrStderr(), "copied %d bytes to clipboard\n", buf.Len())
+			warnf(cmd.ErrOrStderr(), "copied %d bytes to clipboard\n", buf.Len())
 		}
 	}
 
 	// Human summary goes to stderr; stdout carries only machine output.
 	w := cmd.ErrOrStderr()
-	fmt.Fprintf(w, "packed %d files (%d skipped) from %s into %s [%s, %d bytes] in %s\n",
+	warnf(w, "packed %d files (%d skipped) from %s into %s [%s, %d bytes] in %s\n",
 		len(p.Files), len(p.Skips), p.Root, dest, f.format, buf.Len(), time.Since(start).Round(time.Millisecond))
 	if p.TotalTokens >= 0 {
 		if p.TokenEstimate {
-			fmt.Fprintf(w, "tokens: ~%d (est., %s) - estimate, not exact\n", p.TotalTokens, p.Tokenizer)
+			warnf(w, "tokens: ~%d (est., %s) - estimate, not exact\n", p.TotalTokens, p.Tokenizer)
 		} else {
-			fmt.Fprintf(w, "tokens: %d (exact, %s)\n", p.TotalTokens, p.Tokenizer)
+			warnf(w, "tokens: %d (exact, %s)\n", p.TotalTokens, p.Tokenizer)
 		}
 	}
 	if len(p.Redactions) > 0 {
-		fmt.Fprintf(w, "redacted secrets in %d file(s); details are recorded in the output manifest\n", len(p.Redactions))
+		warnf(w, "redacted secrets in %d file(s); details are recorded in the output manifest\n", len(p.Redactions))
 	}
 	if f.format == format.KindEnvelope {
 		if f.encrypt {
-			fmt.Fprintf(w, "note: %s\n", format.EncryptedWarning)
+			warnf(w, "note: %s\n", format.EncryptedWarning)
 		} else {
-			fmt.Fprintf(w, "note: %s\n", format.SecurityWarning)
+			warnf(w, "note: %s\n", format.SecurityWarning)
 		}
 	}
 	return nil
+}
+
+func warnf(w io.Writer, format string, args ...any) {
+	_, _ = fmt.Fprintf(w, format, args...)
 }
 
 // buildOptions validates flag combinations and assembles pack.Options.

@@ -123,8 +123,8 @@ func TestCLISplitOutput(t *testing.T) {
 	require.NoError(t, err)
 	second, err := os.ReadFile(partTwo)
 	require.NoError(t, err)
-	combined := append(first, second...)
-	require.NotContains(t, string(combined), "old split should not be packed")
+	combined := string(first) + string(second)
+	require.NotContains(t, combined, "old split should not be packed")
 }
 
 func TestCLICompressReadableOutput(t *testing.T) {

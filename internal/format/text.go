@@ -2,7 +2,6 @@ package format
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"strings"
 
@@ -19,19 +18,31 @@ const textRule = "==============================================================
 func (text) Render(w io.Writer, p *model.Pack) error {
 	bw := bufio.NewWriter(w)
 
-	fmt.Fprintf(bw, "CodePack-LZ v%s - repository: %s\n", version.Version, p.Root)
-	fmt.Fprintf(bw, "files: %d packed, %d skipped - total: %s", len(p.Files), len(p.Skips), humanBytes(p.TotalBytes))
-	if ts := tokenSummary(p); ts != "" {
-		fmt.Fprintf(bw, " - %s", ts)
+	if err := writef(bw, "CodePack-LZ v%s - repository: %s\n", version.Version, p.Root); err != nil {
+		return err
 	}
-	fmt.Fprintf(bw, "\nsecret scan: %s\n", secretScanLabel(p))
-	fmt.Fprintf(bw, "warning: review for sensitive data before sharing; scanning cannot guarantee every secret is caught.\n\n")
+	if err := writef(bw, "files: %d packed, %d skipped - total: %s", len(p.Files), len(p.Skips), humanBytes(p.TotalBytes)); err != nil {
+		return err
+	}
+	if ts := tokenSummary(p); ts != "" {
+		if err := writef(bw, " - %s", ts); err != nil {
+			return err
+		}
+	}
+	if err := writef(bw, "\nsecret scan: %s\n", secretScanLabel(p)); err != nil {
+		return err
+	}
+	if err := writef(bw, "warning: review for sensitive data before sharing; scanning cannot guarantee every secret is caught.\n\n"); err != nil {
+		return err
+	}
 
 	paths := make([]string, len(p.Files))
 	for i := range p.Files {
 		paths[i] = p.Files[i].Path
 	}
-	fmt.Fprintf(bw, "FILE TREE\n---------\n%s\n", renderTree(p.Root, paths))
+	if err := writef(bw, "FILE TREE\n---------\n%s\n", renderTree(p.Root, paths)); err != nil {
+		return err
+	}
 
 	for i := range p.Files {
 		f := &p.Files[i]
@@ -39,36 +50,60 @@ func (text) Render(w io.Writer, p *model.Pack) error {
 		if ft := fileTokens(p, f); ft != "" {
 			meta = append(meta, ft)
 		}
-		fmt.Fprintf(bw, "%s\nFILE: %s (%s)\n%s\n", textRule, f.Path, strings.Join(nonEmpty(meta), " - "), textRule)
+		if err := writef(bw, "%s\nFILE: %s (%s)\n%s\n", textRule, f.Path, strings.Join(nonEmpty(meta), " - "), textRule); err != nil {
+			return err
+		}
 		if f.DupOf != "" {
-			fmt.Fprintf(bw, "identical to %s (content not repeated)\n\n", f.DupOf)
+			if err := writef(bw, "identical to %s (content not repeated)\n\n", f.DupOf); err != nil {
+				return err
+			}
 			continue
 		}
-		bw.Write(f.Content)
-		if len(f.Content) > 0 && f.Content[len(f.Content)-1] != '\n' {
-			bw.WriteByte('\n')
+		if _, err := bw.Write(f.Content); err != nil {
+			return err
 		}
-		bw.WriteByte('\n')
+		if len(f.Content) > 0 && f.Content[len(f.Content)-1] != '\n' {
+			if err := bw.WriteByte('\n'); err != nil {
+				return err
+			}
+		}
+		if err := bw.WriteByte('\n'); err != nil {
+			return err
+		}
 	}
 
 	if len(p.Skips) > 0 {
-		fmt.Fprintf(bw, "SKIPPED\n-------\n")
+		if err := writef(bw, "SKIPPED\n-------\n"); err != nil {
+			return err
+		}
 		for _, s := range p.Skips {
 			if s.Size > 0 {
-				fmt.Fprintf(bw, "%s - %s (%s)\n", s.Path, s.Reason, humanBytes(s.Size))
+				if err := writef(bw, "%s - %s (%s)\n", s.Path, s.Reason, humanBytes(s.Size)); err != nil {
+					return err
+				}
 			} else {
-				fmt.Fprintf(bw, "%s - %s\n", s.Path, s.Reason)
+				if err := writef(bw, "%s - %s\n", s.Path, s.Reason); err != nil {
+					return err
+				}
 			}
 		}
-		bw.WriteByte('\n')
+		if err := bw.WriteByte('\n'); err != nil {
+			return err
+		}
 	}
 
 	if len(p.Redactions) > 0 {
-		fmt.Fprintf(bw, "REDACTIONS\n----------\n")
-		for _, r := range p.Redactions {
-			fmt.Fprintf(bw, "%s - %s (%d matches)\n", r.Path, r.Rule, r.Count)
+		if err := writef(bw, "REDACTIONS\n----------\n"); err != nil {
+			return err
 		}
-		bw.WriteByte('\n')
+		for _, r := range p.Redactions {
+			if err := writef(bw, "%s - %s (%d matches)\n", r.Path, r.Rule, r.Count); err != nil {
+				return err
+			}
+		}
+		if err := bw.WriteByte('\n'); err != nil {
+			return err
+		}
 	}
 
 	return bw.Flush()

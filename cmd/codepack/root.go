@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 
 	"github.com/evan-william/codepack-lz/internal/version"
@@ -36,7 +34,7 @@ func newVersionCmd() *cobra.Command {
 		Short: "Print the tool and envelope-format versions",
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, _ []string) {
-			fmt.Fprintf(cmd.OutOrStdout(), "codepack %s (envelope format v%d)\n", version.Version, version.FormatVersion)
+			warnf(cmd.OutOrStdout(), "codepack %s (envelope format v%d)\n", version.Version, version.FormatVersion)
 		},
 	}
 }
