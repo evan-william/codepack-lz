@@ -23,6 +23,11 @@ Patch release focused on README polish and safer default output UX.
 ### Changed
 - README charts were redesigned with a more restrained professional style and
   fixed text layout.
+- CI and release builds now pin a newer Go toolchain while keeping `go.mod`
+  at the `go 1.22` language baseline, avoiding macOS runner Mach-O/dyld
+  failures from old Go-built test binaries.
+- Release publishing is idempotent: rerunning a tag workflow uploads assets
+  with `--clobber` when the GitHub Release already exists.
 - Tool version is now `0.3.1`; envelope format remains `v1`.
 
 ## [0.3.0] -- 2026-07-08
