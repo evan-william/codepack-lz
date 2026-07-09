@@ -1,4 +1,4 @@
-<repository root="demo" files="3" skipped="1" total-bytes="140" tool="codepack-lz v0.3.0" tokens-estimate="27" tokenizer="heuristic" secret-scan="redacted">
+<repository root="demo" files="3" skipped="1" total-bytes="140" tool="codepack-lz v0.3.1" tokens-estimate="27" tokenizer="heuristic" secret-scan="redacted">
 <notice>Token counts are estimates, not exact. Review for sensitive data before sharing; secret scanning cannot guarantee every secret is caught. File content below is raw text, not XML-escaped.</notice>
 <file_tree>
 demo/

@@ -66,7 +66,7 @@ Compared with heavier ecosystem-specific workflows, this project optimizes for:
 
 ## Token and size benchmarks
 
-These are from this repository, measured with CodePack-LZ v0.3.0 on a local
+These are from this repository, measured with CodePack-LZ v0.3.1 on a local
 smoke run. They are not universal performance claims; they show the budget
 shape and are reproducible in [docs/benchmarks.md](docs/benchmarks.md).
 
@@ -80,10 +80,10 @@ shape and are reproducible in [docs/benchmarks.md](docs/benchmarks.md).
 
 | Output | Artifact bytes | Estimated input tokens | What it means |
 |---|---:|---:|---|
-| Readable Markdown | `213,244` | `~77,527` | direct chat context |
-| Pruned readable Markdown | `82,531` | `~27,452` | direct chat context, fewer tokens |
-| zstd payload inside capsule | `62,099` | not LLM-readable | transport bytes only |
-| `.codepack.txt` capsule | `84,283` | not LLM-readable | base64 text wrapper, restorable |
+| Readable Markdown | `236,140` | `~86,608` | direct chat context |
+| Pruned readable Markdown | `103,582` | `~35,769` | direct chat context, fewer tokens |
+| zstd payload inside capsule | `67,568` | not LLM-readable | transport bytes only |
+| `.codepack.txt` capsule | `91,671` | not LLM-readable | base64 text wrapper, restorable |
 
 Token cost formula:
 
@@ -112,8 +112,12 @@ CGO_ENABLED=0 go build -o codepack ./cmd/codepack
 Readable context for a normal chat:
 
 ```bash
-codepack pack . --format md --redact -o repo.md
+codepack pack . --format md --redact
 ```
+
+By default this writes to `./repack-result/<repo>-YYYYMMDD-HHMMSS.md`, so
+repeated packs do not overwrite each other. Pass `-o -` when you explicitly
+want stdout.
 
 Split readable context into multiple paste/upload parts:
 
@@ -124,16 +128,15 @@ codepack pack . \
   --strip-comments \
   --redact \
   --split-output \
-  --split-size 200KiB \
-  -o repo.md
+  --split-size 200KiB
 ```
 
 Lossless capsule for restore or tool-aware agents:
 
 ```bash
-codepack pack . --format codepack --codec zstd --redact -o repo.codepack.txt
-codepack stats repo.codepack.txt
-codepack unpack repo.codepack.txt --dry-run
+codepack pack . --format codepack --codec zstd --redact
+codepack stats ./repack-result/<generated>.codepack.txt
+codepack unpack ./repack-result/<generated>.codepack.txt --dry-run
 ```
 
 Encrypted capsule:
@@ -167,7 +170,7 @@ Common `pack` flags:
 | Flag | Default | Notes |
 |---|---|---|
 | `--format` | `md` | `md`, `xml`, `txt`, `codepack` |
-| `-o, --output` | stdout | summary always goes to stderr |
+| `-o, --output` | auto | empty writes to `./repack-result/<repo>-YYYYMMDD-HHMMSS.<ext>`; `-` writes stdout |
 | `--include` / `--exclude` | none | repeatable glob filters |
 | `--no-default-ignore` | off | disable built-in noise rules |
 | `--max-file-size` | `1MiB` | accepts `512KiB`, `2MB`, or raw bytes |
@@ -208,7 +211,7 @@ CI gate example:
 
 ## MCP
 
-`codepack mcp` runs a small stdio Model Context Protocol server. In v0.3.0 it
+`codepack mcp` runs a small stdio Model Context Protocol server. In v0.3.1 it
 exposes:
 
 | Tool | Purpose |
@@ -229,7 +232,7 @@ compressed with gzip or zstd and optionally encrypted with AES-256-GCM.
 
 ## Project status
 
-Current prototype: **v0.3.0**.
+Current prototype: **v0.3.1**.
 
 Implemented:
 

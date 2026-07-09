@@ -4,7 +4,7 @@
 - Total size: 140 B
 - Tokens: ~27 tokens (est., heuristic)
 - Secret scan: redacted (1 file)
-- Packed by: codepack-lz v0.3.0
+- Packed by: codepack-lz v0.3.1
 
 > **Warning:** Review this output for sensitive data before sharing. Secret scanning reduces risk but cannot guarantee every secret is caught.
 

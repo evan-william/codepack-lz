@@ -8,6 +8,23 @@ adheres to [Semantic Versioning](https://semver.org/).
 
 No unreleased changes yet.
 
+## [0.3.1] -- 2026-07-10
+
+Patch release focused on README polish and safer default output UX.
+
+### Added
+- Default `pack` output now writes into `./repack-result/` with timestamped
+  filenames when `-o/--output` is omitted, for example
+  `repack-result/my-repo-20260710-143012.md`.
+- `repack-result/` is ignored by the built-in default ignore list and by
+  `.gitignore`, preventing generated packs from being repacked or committed.
+- GitHub release workflow for tagged releases.
+
+### Changed
+- README charts were redesigned with a more restrained professional style and
+  fixed text layout.
+- Tool version is now `0.3.1`; envelope format remains `v1`.
+
 ## [0.3.0] -- 2026-07-08
 
 Prototype scope completed through the v0.3 target.

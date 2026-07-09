@@ -53,9 +53,28 @@ func TestCLIPackMarkdown(t *testing.T) {
 
 func TestCLIPackStdout(t *testing.T) {
 	repo := demoRepo(t)
-	stdout, _, err := execute(t, "pack", repo, "--format", "txt", "--count-tokens", "off")
+	stdout, _, err := execute(t, "pack", repo, "--format", "txt", "--count-tokens", "off", "-o", "-")
 	require.NoError(t, err)
 	require.Contains(t, stdout, "FILE: src/main.go")
+}
+
+func TestCLIPackDefaultOutput(t *testing.T) {
+	repo := demoRepo(t)
+
+	stdout, stderr, err := execute(t, "pack", repo, "--format", "md", "--count-tokens", "off")
+	require.NoError(t, err)
+	require.Empty(t, stdout)
+	require.Contains(t, stderr, "repack-result")
+
+	outDir := filepath.Join(repo, defaultOutputDir)
+	require.DirExists(t, outDir)
+	matches, err := filepath.Glob(filepath.Join(outDir, filepath.Base(repo)+"-????????-??????.md"))
+	require.NoError(t, err)
+	require.Len(t, matches, 1)
+
+	content, err := os.ReadFile(matches[0])
+	require.NoError(t, err)
+	require.Contains(t, string(content), "### src/main.go")
 }
 
 func TestCLIEnvelopeRoundTrip(t *testing.T) {
@@ -238,7 +257,7 @@ func TestCLIUsageErrors(t *testing.T) {
 		{"pack", repo, "--format", "codepack", "--compress"},
 		{"pack", repo, "--format", "codepack", "--split-output", "-o", filepath.Join(t.TempDir(), "x.codepack.txt")},
 		{"pack", repo, "--format", "md", "--encrypt"},
-		{"pack", repo, "--format", "md", "--split-output"},
+		{"pack", repo, "--format", "md", "--split-output", "-o", "-"},
 		{"pack", repo, "--redact", "--no-secret-scan"},
 		{"pack", repo, "--max-file-size", "banana"},
 		{"pack", repo, "--bogus-flag"},
@@ -253,7 +272,7 @@ func TestCLIUsageErrors(t *testing.T) {
 func TestCLIVersion(t *testing.T) {
 	stdout, _, err := execute(t, "version")
 	require.NoError(t, err)
-	require.Contains(t, stdout, "codepack 0.3.0 (envelope format v1)")
+	require.Contains(t, stdout, "codepack 0.3.1 (envelope format v1)")
 }
 
 func TestExitCodeMapping(t *testing.T) {

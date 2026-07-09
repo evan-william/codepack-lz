@@ -1,11 +1,14 @@
 # Builds
 bin/
 dist/
+.gocache/
+.golangci-cache/
 *.exe
 *.test
 coverage.out
 
 # Generated packs
+repack-result/
 *.codepack.txt
 
 # Dependencies

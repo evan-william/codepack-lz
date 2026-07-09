@@ -3,7 +3,7 @@
 package version
 
 // Version is the tool version reported in output headers and `codepack version`.
-var Version = "0.3.0"
+var Version = "0.3.1"
 
 // FormatVersion is the envelope format version. Bump on any breaking payload
 // change; see docs/format-spec.md.

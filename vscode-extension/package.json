@@ -2,7 +2,7 @@
   "name": "codepack-lz",
   "displayName": "CodePack-LZ",
   "description": "Pack the current VS Code workspace into LLM-ready context (or a lossless envelope) and copy it to the clipboard.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "evan-william",
   "license": "MIT",
   "engines": {

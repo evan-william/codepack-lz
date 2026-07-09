@@ -35,6 +35,8 @@ obj/
 
 # --- caches ---
 .cache/
+.gocache/
+.golangci-cache/
 .turbo/
 .vite/
 .parcel-cache/
@@ -88,6 +90,7 @@ temp/
 *.keystore
 
 # --- codepack's own output ---
+repack-result/
 *.codepack.txt
 
 # --- lockfiles (token-heavy, rarely useful context; re-include via !pattern) ---

@@ -39,7 +39,10 @@ type packFlags struct {
 	splitSize       string
 	encrypt         bool
 	keyEnv          string
+	autoOutput      bool
 }
+
+const defaultOutputDir = "repack-result"
 
 func newPackCmd() *cobra.Command {
 	f := &packFlags{}
@@ -61,7 +64,7 @@ the codepack envelope is a lossless, hash-verified transport artifact.`,
 
 	fl := cmd.Flags()
 	fl.StringVar(&f.format, "format", format.KindMarkdown, "output format: "+strings.Join(format.Kinds(), "|"))
-	fl.StringVarP(&f.output, "output", "o", "-", "output file; \"-\" = stdout")
+	fl.StringVarP(&f.output, "output", "o", "", "output file; empty = ./repack-result/<repo>-<timestamp>.<ext>, \"-\" = stdout")
 	fl.StringVar(&f.codec, "codec", format.CodecGzip, "envelope codec: gzip|zstd")
 	fl.StringArrayVar(&f.include, "include", nil, "glob(s); when set, only matching files are packed (repeatable)")
 	fl.StringArrayVar(&f.exclude, "exclude", nil, "extra glob(s) to exclude (repeatable)")
@@ -84,6 +87,10 @@ the codepack envelope is a lossless, hash-verified transport artifact.`,
 }
 
 func runPack(cmd *cobra.Command, root string, f *packFlags) error {
+	start := time.Now()
+	if err := resolveDefaultOutput(root, f, start); err != nil {
+		return err
+	}
 	opts, err := buildOptions(f)
 	if err != nil {
 		return err
@@ -91,8 +98,8 @@ func runPack(cmd *cobra.Command, root string, f *packFlags) error {
 	if err := addSplitSelfExcludes(root, opts, f); err != nil {
 		return err
 	}
+	addAutoOutputSelfExclude(opts, f)
 
-	start := time.Now()
 	p, err := pack.Build(root, *opts)
 	if err != nil {
 		return err
@@ -119,6 +126,9 @@ func runPack(cmd *cobra.Command, root string, f *packFlags) error {
 		}
 		dest = fmt.Sprintf("%s (%d part(s), %s max)", splitPattern(f.output), len(parts), f.splitSize)
 	} else {
+		if err := os.MkdirAll(filepath.Dir(f.output), 0o755); err != nil {
+			return err
+		}
 		if err := os.WriteFile(f.output, buf.Bytes(), 0o644); err != nil {
 			return err
 		}
@@ -159,6 +169,50 @@ func runPack(cmd *cobra.Command, root string, f *packFlags) error {
 
 func warnf(w io.Writer, format string, args ...any) {
 	_, _ = fmt.Fprintf(w, format, args...)
+}
+
+func resolveDefaultOutput(root string, f *packFlags, now time.Time) error {
+	if f.output != "" {
+		return nil
+	}
+	absRoot, err := filepath.Abs(root)
+	if err != nil {
+		return fmt.Errorf("resolve %s: %w", root, err)
+	}
+	rootName := safeFilename(filepath.Base(absRoot))
+	if rootName == "" {
+		rootName = "codepack"
+	}
+	name := fmt.Sprintf("%s-%s%s", rootName, now.Format("20060102-150405"), outputExtension(f.format))
+	f.output = filepath.Join(absRoot, defaultOutputDir, name)
+	f.autoOutput = true
+	return nil
+}
+
+func outputExtension(kind string) string {
+	if kind == format.KindEnvelope {
+		return ".codepack.txt"
+	}
+	return "." + kind
+}
+
+func safeFilename(value string) string {
+	var b strings.Builder
+	for _, r := range value {
+		switch {
+		case r >= 'a' && r <= 'z':
+			b.WriteRune(r)
+		case r >= 'A' && r <= 'Z':
+			b.WriteRune(r)
+		case r >= '0' && r <= '9':
+			b.WriteRune(r)
+		case r == '-' || r == '_' || r == '.':
+			b.WriteRune(r)
+		case r == ' ':
+			b.WriteByte('-')
+		}
+	}
+	return strings.Trim(b.String(), ".-")
 }
 
 // buildOptions validates flag combinations and assembles pack.Options.
@@ -288,6 +342,9 @@ func writeSplitOutput(path string, data []byte, sizeText string) ([]string, erro
 	}
 	parts := splitData(data, int(maxSize))
 	names := make([]string, 0, len(parts))
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		return nil, err
+	}
 	for i, part := range parts {
 		name := splitName(path, i+1)
 		if err := os.WriteFile(name, part, 0o644); err != nil {
@@ -346,4 +403,10 @@ func addSplitSelfExcludes(root string, opts *pack.Options, f *packFlags) error {
 	base := strings.TrimSuffix(rel, ext)
 	opts.Walk.Exclude = append(opts.Walk.Exclude, base+".part*"+ext)
 	return nil
+}
+
+func addAutoOutputSelfExclude(opts *pack.Options, f *packFlags) {
+	if f.autoOutput {
+		opts.Walk.Exclude = append(opts.Walk.Exclude, defaultOutputDir+"/")
+	}
 }

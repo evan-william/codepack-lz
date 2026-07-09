@@ -1,4 +1,4 @@
-CodePack-LZ v0.3.0 - repository: demo
+CodePack-LZ v0.3.1 - repository: demo
 files: 3 packed, 1 skipped - total: 140 B - ~27 tokens (est., heuristic)
 secret scan: redacted (1 file)
 warning: review for sensitive data before sharing; scanning cannot guarantee every secret is caught.

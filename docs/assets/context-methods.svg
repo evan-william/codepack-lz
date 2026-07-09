@@ -1,53 +1,47 @@
 <svg width="1180" height="560" viewBox="0 0 1180 560" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Context sharing method comparison</title>
-  <desc id="desc">A qualitative comparison of common ways to give code context to AI systems.</desc>
-  <rect width="1180" height="560" rx="26" fill="#0B1020"/>
-  <text x="52" y="72" fill="#F8FAFC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="36" font-weight="800">How code context usually travels to AI</text>
-  <text x="52" y="108" fill="#A7B0C0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18">Qualitative scoring: more filled blocks means stronger for that property.</text>
+  <title id="title">AI context method comparison</title>
+  <desc id="desc">A comparison table of common methods for sending code context to AI systems.</desc>
+  <rect width="1180" height="560" rx="24" fill="#0E1116"/>
+  <rect x="1" y="1" width="1178" height="558" rx="23" stroke="#242B36"/>
 
-  <text x="348" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Chat-readable</text>
-  <text x="520" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Low tokens</text>
-  <text x="674" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Lossless</text>
-  <text x="818" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Safe by default</text>
-  <text x="1012" y="154" fill="#CBD5E1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Agent-ready</text>
+  <text x="56" y="72" fill="#F4F7FB" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="36" font-weight="750">How code context travels to AI</text>
+  <text x="56" y="108" fill="#AAB4C3" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17">A qualitative view of readability, token efficiency, lossless restore, safety, and agent workflows.</text>
 
-  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18">
-    <text x="58" y="210" fill="#F8FAFC" font-weight="750">Raw copy/paste</text>
-    <text x="58" y="282" fill="#F8FAFC" font-weight="750">Zip/base64 blob</text>
-    <text x="58" y="354" fill="#F8FAFC" font-weight="750">One-way repo digest</text>
-    <text x="58" y="426" fill="#F8FAFC" font-weight="750">CodePack readable</text>
-    <text x="58" y="498" fill="#F8FAFC" font-weight="750">CodePack capsule + MCP</text>
+  <rect x="50" y="144" width="1080" height="352" rx="16" fill="#121821" stroke="#2E3848"/>
+  <line x1="50" y1="206" x2="1130" y2="206" stroke="#2E3848"/>
+  <line x1="50" y1="264" x2="1130" y2="264" stroke="#202938"/>
+  <line x1="50" y1="322" x2="1130" y2="322" stroke="#202938"/>
+  <line x1="50" y1="380" x2="1130" y2="380" stroke="#202938"/>
+  <line x1="50" y1="438" x2="1130" y2="438" stroke="#202938"/>
+  <line x1="332" y1="144" x2="332" y2="496" stroke="#2E3848"/>
+  <line x1="498" y1="144" x2="498" y2="496" stroke="#2E3848"/>
+  <line x1="664" y1="144" x2="664" y2="496" stroke="#2E3848"/>
+  <line x1="830" y1="144" x2="830" y2="496" stroke="#2E3848"/>
+  <line x1="996" y1="144" x2="996" y2="496" stroke="#2E3848"/>
+
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#C9D1DE">
+    <text x="360" y="181">Readable</text>
+    <text x="528" y="181">Low tokens</text>
+    <text x="694" y="181">Lossless</text>
+    <text x="862" y="181">Safe default</text>
+    <text x="1022" y="181">Agent-ready</text>
   </g>
 
-  <g fill="#1E293B" stroke="#334155">
-    <rect x="328" y="184" width="116" height="32" rx="8"/><rect x="500" y="184" width="116" height="32" rx="8"/><rect x="658" y="184" width="116" height="32" rx="8"/><rect x="824" y="184" width="116" height="32" rx="8"/><rect x="1012" y="184" width="116" height="32" rx="8"/>
-    <rect x="328" y="256" width="116" height="32" rx="8"/><rect x="500" y="256" width="116" height="32" rx="8"/><rect x="658" y="256" width="116" height="32" rx="8"/><rect x="824" y="256" width="116" height="32" rx="8"/><rect x="1012" y="256" width="116" height="32" rx="8"/>
-    <rect x="328" y="328" width="116" height="32" rx="8"/><rect x="500" y="328" width="116" height="32" rx="8"/><rect x="658" y="328" width="116" height="32" rx="8"/><rect x="824" y="328" width="116" height="32" rx="8"/><rect x="1012" y="328" width="116" height="32" rx="8"/>
-    <rect x="328" y="400" width="116" height="32" rx="8"/><rect x="500" y="400" width="116" height="32" rx="8"/><rect x="658" y="400" width="116" height="32" rx="8"/><rect x="824" y="400" width="116" height="32" rx="8"/><rect x="1012" y="400" width="116" height="32" rx="8"/>
-    <rect x="328" y="472" width="116" height="32" rx="8"/><rect x="500" y="472" width="116" height="32" rx="8"/><rect x="658" y="472" width="116" height="32" rx="8"/><rect x="824" y="472" width="116" height="32" rx="8"/><rect x="1012" y="472" width="116" height="32" rx="8"/>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17" fill="#F4F7FB">
+    <text x="76" y="243" font-weight="700">Raw copy/paste</text>
+    <text x="76" y="301" font-weight="700">Zip/base64 blob</text>
+    <text x="76" y="359" font-weight="700">One-way repo digest</text>
+    <text x="76" y="417" font-weight="700">CodePack readable</text>
+    <text x="76" y="475" font-weight="700">CodePack capsule + MCP</text>
   </g>
 
-  <g fill="#22C55E">
-    <rect x="336" y="191" width="96" height="18" rx="4"/>
-    <rect x="508" y="191" width="24" height="18" rx="4"/>
-    <rect x="832" y="191" width="24" height="18" rx="4"/>
-
-    <rect x="666" y="263" width="96" height="18" rx="4"/>
-    <rect x="1020" y="263" width="32" height="18" rx="4"/>
-
-    <rect x="336" y="335" width="80" height="18" rx="4"/>
-    <rect x="508" y="335" width="56" height="18" rx="4"/>
-    <rect x="832" y="335" width="48" height="18" rx="4"/>
-
-    <rect x="336" y="407" width="96" height="18" rx="4"/>
-    <rect x="508" y="407" width="88" height="18" rx="4"/>
-    <rect x="832" y="407" width="88" height="18" rx="4"/>
-    <rect x="1020" y="407" width="60" height="18" rx="4"/>
-
-    <rect x="336" y="479" width="28" height="18" rx="4"/>
-    <rect x="508" y="479" width="96" height="18" rx="4"/>
-    <rect x="666" y="479" width="96" height="18" rx="4"/>
-    <rect x="832" y="479" width="88" height="18" rx="4"/>
-    <rect x="1020" y="479" width="96" height="18" rx="4"/>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17" text-anchor="middle" dominant-baseline="middle">
+    <g fill="#8AD7C7" font-weight="800">
+      <text x="415" y="235">High</text><text x="581" y="235">Low</text><text x="747" y="235">No</text><text x="913" y="235">Low</text><text x="1079" y="235">Low</text>
+      <text x="415" y="293">No</text><text x="581" y="293">High</text><text x="747" y="293">Yes</text><text x="913" y="293">Low</text><text x="1079" y="293">Med</text>
+      <text x="415" y="351">Med</text><text x="581" y="351">Med</text><text x="747" y="351">No</text><text x="913" y="351">Med</text><text x="1079" y="351">Med</text>
+      <text x="415" y="409">High</text><text x="581" y="409">High</text><text x="747" y="409">No</text><text x="913" y="409">High</text><text x="1079" y="409">Med</text>
+      <text x="415" y="467">Tool</text><text x="581" y="467">High</text><text x="747" y="467">Yes</text><text x="913" y="467">High</text><text x="1079" y="467">High</text>
+    </g>
   </g>
 </svg>

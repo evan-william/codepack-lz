@@ -7,25 +7,25 @@ makes visible: readable input tokens, transport bytes, and restore integrity.
 ## Local repo smoke run
 
 Run date: 2026-07-10 local workspace  
-Tool: `codepack 0.3.0 (envelope format v1)`  
-Corpus: this repository, `69` packed files, `5` skipped files, `205,004` raw
+Tool: `codepack 0.3.1 (envelope format v1)`
+Corpus: this repository, `75` packed files, `8` skipped files, `227,077` raw
 packed bytes, secret scan clean
 
 | Output | Command | Artifact bytes | Estimated tokens | Time |
 |---|---|---:|---:|---:|
-| Readable Markdown | `codepack pack . --format md --redact` | `213,244` | `~77,527` | `55.2 ms` |
-| Pruned readable Markdown | `codepack pack . --format md --strip-comments --compress --redact` | `82,531` | `~27,452` | `54.5 ms` |
-| Readable Markdown, no token count | `codepack pack . --format md --count-tokens off --redact` | `211,763` | n/a | `72.1 ms` |
-| Lossless capsule | `codepack pack . --format codepack --codec zstd --redact` | `84,283` | not LLM-readable | `102.2 ms` |
-| Verify capsule | `codepack unpack repo.codepack.txt --dry-run` | n/a | n/a | `46.3 ms` |
+| Readable Markdown | `codepack pack . --format md --redact` | `236,140` | `~86,608` | `93.5 ms` |
+| Pruned readable Markdown | `codepack pack . --format md --strip-comments --compress --redact` | `103,582` | `~35,769` | `84.4 ms` |
+| Readable Markdown, no token count | `codepack pack . --format md --count-tokens off --redact` | `234,529` | n/a | `79.2 ms` |
+| Lossless capsule | `codepack pack . --format codepack --codec zstd --redact` | `91,671` | not LLM-readable | `124.2 ms` |
+| Verify capsule | `codepack unpack repo.codepack.txt --dry-run` | n/a | n/a | `41.7 ms` |
 
 Capsule header from the same run:
 
 ```text
-files:        69 (5 skipped)
-bytes raw:    205004
-bytes packed: 62099 (zstd, before base64)
-ratio:        30.3%
+files:        75 (8 skipped)
+bytes raw:    227077
+bytes packed: 67568 (zstd, before base64)
+ratio:        29.8%
 secret scan:  clean
 ```
 
